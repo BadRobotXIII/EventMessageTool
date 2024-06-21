@@ -196,6 +196,11 @@ namespace EventMessageTool {
                     _form.OutputMessage($"{eventObj.Message1}");
                     if (eventObj.ID != 0 & eventObj.Message1 != "") {
                         eventsPLC.Add(eventObj);
+                    }else{
+                        eventObj.ID = i; eventObj.Category = 0;
+                        eventObj.Message1 = i + " - " + 0 + ": " + "Unknown Event Message";
+                        eventObj.Message2 = i + " - " + 0 + ": " + "Unknown Event Message";
+                        eventsPLC.Add(eventObj);
                     }
                 });
 
