@@ -60,8 +60,8 @@ namespace EventMessageTool {
             }
 
             //Validate file type .xlsx .xlsm
-            var fileExt = filePath.Split(".");
-            if (fileExt[1] != "xlsx" && fileExt[1] != "xlsm") {
+            var fileExt = Path.GetExtension(filePath);
+            if (fileExt != ".xlsx" && fileExt != ".xlsm") {
                 _form.EventMessage("Invalid File Extension");
                 return null;
             }
@@ -152,7 +152,7 @@ namespace EventMessageTool {
 
             //Validate file type .xlsx .xlsm
             var fileExt = Path.GetExtension(filePath);
-            if (fileExt != "xlsx" && fileExt != "xlsm") {
+            if (fileExt != ".xlsx" && fileExt != ".xlsm") {
                 _form.EventMessage("Invalid File Extension");
                 return;
             }
