@@ -1,6 +1,5 @@
-﻿using System.Diagnostics;
-
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
+using System.Diagnostics;
 
 //*************************************************************************************************
 //** Developer: Kameron Zulfic
@@ -105,9 +104,9 @@ namespace EventMessageTool {
                 //Concatenate ID station and language 1 message
                 if (cellLang1 != "") {
                     evnt.Message1 = cellID + " - " + cellStn + ": " + cellLang1;
-                }else if (evnt.Category == 6 || evnt.Category == 7){
+                } else if (evnt.Category == 6 || evnt.Category == 7) {
                     evnt.Message1 = cellID + " - " + cellStn + ": " + "Unknown Info Message";
-                }else{
+                } else {
                     evnt.Message1 = cellID + " - " + cellStn + ": " + "Unknown Fault Message";
                 }
                 //Concatenate ID station and language 2 message
@@ -141,6 +140,9 @@ namespace EventMessageTool {
         public void WrkBkWrite(string filePath, List<Workbook.EventObj> events, FormMain _form) {
             var time = Stopwatch.StartNew();
             FileStream fileStream;
+            string message1 = "";
+            string message2 = "";
+            string station = "";
             string fileName = filePath; //File path
             string sheetName = "Fault Messages"; //Workbook sheet name
             List<EventObj> Events = new(); //Alarm list object
@@ -174,16 +176,26 @@ namespace EventMessageTool {
 
             for (int i = 0; i < events.Count; i++) {
                 //Parse message 1
-                var msg1SplitDash = events[i].Message1.Split("-", 2);
-                var msg1SplitColon = msg1SplitDash[1].Split(":", 2);
-                var msg1station = msg1SplitColon[0].TrimStart();
-                var message1 = msg1SplitColon[1].TrimStart();
-
-                //Parse message 1
-                var msg2SplitDash = events[i].Message2.Split("-", 2);
-                var msg2SplitColon = msg2SplitDash[1].Split(":", 2);
-                var station = msg2SplitColon[0].TrimStart();
-                var message2 = msg2SplitColon[1].TrimStart();
+                if (events[i].Message2.Contains('-') == true && events[i].Message2.Contains(':') == true) {
+                    var msg1SplitDash = events[i].Message1.Split("-", 2);
+                    var msg1SplitColon = msg1SplitDash[1].Split(":", 2);
+                    var msg1station = msg1SplitColon[0].TrimStart();
+                    var msg1 = msg1SplitColon[1].TrimStart();
+                    station = msg1station;
+                    message1 = msg1;
+                } else {
+                    message2 = events[i].Message2;
+                }
+                //Parse message 2
+                if (events[i].Message2.Contains('-') == true && events[i].Message2.Contains(':') == true) {
+                    var msg2SplitDash = events[i].Message2.Split("-", 2);
+                    var msg2SplitColon = msg2SplitDash[1].Split(":", 2);
+                    var msg2station = msg2SplitColon[0].TrimStart();
+                    var msg2 = msg2SplitColon[1].TrimStart();
+                    message2 = msg2;
+                } else {
+                    message2 = events[i].Message2;
+                }
 
                 wrkSheet.Cell(i + 3, 1).Value = events[i].ID;
                 wrkSheet.Cell(i + 3, 2).Value = station;
