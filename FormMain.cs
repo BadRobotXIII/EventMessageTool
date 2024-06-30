@@ -72,6 +72,8 @@ namespace EventMessageTool {
         private void Form1_Load(object sender, System.EventArgs e) {
             //Initialize defaults on form object load
             //AllocConsole(); //Display console for debug
+            tbDBName.Text = "MyProject_db";
+            tbModule.Text = "1000";
             tbBaseTag.Text = "gMod2010_uaEventDetails";//Base tag
             tbIPAddress.Text = "172.30.110.41";//Default IP Address
             openFileDialog.InitialDirectory = "C:\\user\\%USERPROFILE%\\documents";//Default path
@@ -142,9 +144,13 @@ namespace EventMessageTool {
             string module = tbModule.Text;
             string dbName = tbDBName.Text;
             var threadExportDb = new Thread(() => tasks.ExportDatabase(filePath, dbName, module, this));
-            if(threadExportDb.ThreadState != ThreadState.Running){
+            if (threadExportDb.ThreadState != ThreadState.Running) {
                 threadExportDb.Start();
             }
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e) {
+           
         }
     }
 }

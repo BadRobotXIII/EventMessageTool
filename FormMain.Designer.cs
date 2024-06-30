@@ -25,8 +25,8 @@ namespace EventMessageTool {
         ///  Required method for Designer support - do not modify
         ///  the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
-        {
+        private void InitializeComponent() {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             progressBar = new ProgressBar();
             openFileDialog = new OpenFileDialog();
@@ -57,6 +57,7 @@ namespace EventMessageTool {
             panel4 = new Panel();
             label5 = new Label();
             tbModule = new TextBox();
+            toolTip1 = new ToolTip(components);
             tabPane.SuspendLayout();
             tabEvents.SuspendLayout();
             tabOutput.SuspendLayout();
@@ -75,6 +76,10 @@ namespace EventMessageTool {
             progressBar.Name = "progressBar";
             progressBar.Size = new Size(986, 31);
             progressBar.TabIndex = 1;
+            // 
+            // openFileDialog
+            // 
+            openFileDialog.Filter = "\"Macro Enabled(*.xlsm)\"|*.xlsm|\"Excel Workbook(*.xlsx)\"|*.xlsx|\"All Files(*.*)\"|*.*";
             // 
             // tabPane
             // 
@@ -193,6 +198,7 @@ namespace EventMessageTool {
             btnPing.Size = new Size(81, 31);
             btnPing.TabIndex = 26;
             btnPing.Text = "Ping";
+            toolTip1.SetToolTip(btnPing, "Ping controller to verify connection");
             btnPing.UseVisualStyleBackColor = true;
             btnPing.Click += btnPing_Click;
             // 
@@ -217,6 +223,7 @@ namespace EventMessageTool {
             tbBaseTag.Name = "tbBaseTag";
             tbBaseTag.Size = new Size(357, 31);
             tbBaseTag.TabIndex = 18;
+            toolTip1.SetToolTip(tbBaseTag, "PLC tag that contains event message strings (gMod1000_uaEventDetails)");
             // 
             // lblSlot
             // 
@@ -240,6 +247,7 @@ namespace EventMessageTool {
             upDnSlot.Size = new Size(41, 31);
             upDnSlot.TabIndex = 16;
             upDnSlot.TextAlign = HorizontalAlignment.Center;
+            toolTip1.SetToolTip(upDnSlot, "Physical slot on Control Logix backplane. If installed in first slot or processor is Compact Logix set valu to 0");
             // 
             // label1
             // 
@@ -261,6 +269,7 @@ namespace EventMessageTool {
             tbIPAddress.Name = "tbIPAddress";
             tbIPAddress.Size = new Size(445, 31);
             tbIPAddress.TabIndex = 14;
+            toolTip1.SetToolTip(tbIPAddress, "IP address of the processor");
             tbIPAddress.TextChanged += tbIPAddress_TextChanged;
             // 
             // panel2
@@ -290,7 +299,7 @@ namespace EventMessageTool {
             // 
             btnFileSel.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnFileSel.ForeColor = SystemColors.ActiveCaptionText;
-            btnFileSel.Location = new Point(713, 48);
+            btnFileSel.Location = new Point(685, 48);
             btnFileSel.Name = "btnFileSel";
             btnFileSel.Size = new Size(47, 32);
             btnFileSel.TabIndex = 25;
@@ -305,18 +314,20 @@ namespace EventMessageTool {
             tbFileSelect.Location = new Point(4, 49);
             tbFileSelect.Margin = new Padding(3, 4, 3, 4);
             tbFileSelect.Name = "tbFileSelect";
-            tbFileSelect.Size = new Size(705, 31);
+            tbFileSelect.Size = new Size(678, 31);
             tbFileSelect.TabIndex = 23;
+            toolTip1.SetToolTip(tbFileSelect, "Select event message Excel workbook (HmiMessageTable_MyProjectName)");
             // 
             // btnExportMsg
             // 
             btnExportMsg.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnExportMsg.ForeColor = SystemColors.ActiveCaptionText;
-            btnExportMsg.Location = new Point(881, 49);
+            btnExportMsg.Location = new Point(856, 49);
             btnExportMsg.Name = "btnExportMsg";
-            btnExportMsg.Size = new Size(94, 31);
+            btnExportMsg.Size = new Size(118, 31);
             btnExportMsg.TabIndex = 22;
-            btnExportMsg.Text = "PLC Export";
+            btnExportMsg.Text = "PLC Download";
+            toolTip1.SetToolTip(btnExportMsg, "Download event detail strings from Excel to PLC");
             btnExportMsg.UseVisualStyleBackColor = true;
             btnExportMsg.Click += btnExportMsg_Click;
             // 
@@ -324,11 +335,12 @@ namespace EventMessageTool {
             // 
             btnImportTags.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
             btnImportTags.ForeColor = SystemColors.ActiveCaptionText;
-            btnImportTags.Location = new Point(776, 49);
+            btnImportTags.Location = new Point(735, 49);
             btnImportTags.Name = "btnImportTags";
-            btnImportTags.Size = new Size(94, 31);
+            btnImportTags.Size = new Size(118, 31);
             btnImportTags.TabIndex = 21;
-            btnImportTags.Text = "PLC Import";
+            btnImportTags.Text = "PLC Upload";
+            toolTip1.SetToolTip(btnImportTags, "Upload event detail strings from PLC to Excel");
             btnImportTags.UseVisualStyleBackColor = true;
             btnImportTags.Click += btnImportTags_Click;
             // 
@@ -351,6 +363,7 @@ namespace EventMessageTool {
             btnDBExport.Size = new Size(94, 31);
             btnDBExport.TabIndex = 23;
             btnDBExport.Text = "DB Export";
+            toolTip1.SetToolTip(btnDBExport, "Export and create SQL database file *(BBS_db.sql)");
             btnDBExport.UseVisualStyleBackColor = true;
             btnDBExport.Click += btnDBExport_Click;
             // 
@@ -375,6 +388,7 @@ namespace EventMessageTool {
             tbDBName.Name = "tbDBName";
             tbDBName.Size = new Size(250, 31);
             tbDBName.TabIndex = 20;
+            toolTip1.SetToolTip(tbDBName, "Desired database name BBS_db");
             // 
             // panel4
             // 
@@ -406,6 +420,15 @@ namespace EventMessageTool {
             tbModule.Name = "tbModule";
             tbModule.Size = new Size(213, 31);
             tbModule.TabIndex = 22;
+            toolTip1.SetToolTip(tbModule, "Module number for SQL database export");
+            // 
+            // toolTip1
+            // 
+            toolTip1.AutomaticDelay = 250;
+            toolTip1.BackColor = Color.PaleGoldenrod;
+            toolTip1.IsBalloon = true;
+            toolTip1.ToolTipIcon = ToolTipIcon.Info;
+            toolTip1.Popup += toolTip1_Popup;
             // 
             // FormMain
             // 
@@ -477,5 +500,6 @@ namespace EventMessageTool {
         private Panel panel4;
         private Label label5;
         public TextBox tbModule;
+        private ToolTip toolTip1;
     }
 }

@@ -23,6 +23,7 @@ namespace EventMessageTool {
                     outFile.WriteLine(lineOnDup);
                 }
             form.EventMessage("Database file export complete");
+            form.EventMessage($"File {dataBase + ".sql"} exported to {path}");
         }
     }
 }
