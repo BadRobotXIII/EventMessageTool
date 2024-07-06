@@ -34,6 +34,7 @@ namespace EventMessageTool {
             this.tbDBName = tbDBName;
         }
 
+        [JsonObject(Description = "Application default values", Id = "App Defaults", Title = "App Defaults")]
         public class AppDefaults {
             public string Module { get; set; }
             public string DbName { get; set; }
@@ -43,19 +44,32 @@ namespace EventMessageTool {
 
         }
 
+        public struct DEFAULTS {
+            public const string MODULE = "Module";
+            public const string DBNAME = "DbName";
+            public const string IP = "IP";
+            public const string TAG = "Tag";
+            public const string PATH = "Path";
+        }
+
         private void SetAppDefaults() {
             string appLocation = AppContext.BaseDirectory;
             string appFileLoc = appLocation + "EventMsgDefaults.json";
             bool defaultFileExists = File.Exists(appFileLoc);
             AppDefaults defaults = new();
+            var appDefaults = new {//Create defaults wrapper force serialization of object name
+                ApplicationDefaults = defaults
+            };
+
             if (defaultFileExists != true) {
-                //Set form element defaults
+                //Set default values
                 defaults.Module = "1000";
                 defaults.DbName = "MyProject_db";
                 defaults.IP = "172.30.110.41";
                 defaults.Tag = "gMod2010_uaEventDetails";
                 defaults.Path = "C:\\user\\%USERPROFILE%\\documents";
 
+                //Set UI elements to defaults
                 tbModule.Text = defaults.Module;
                 tbDBName.Text = defaults.DbName;
                 tbIPAddress.Text = defaults.IP;
@@ -63,32 +77,34 @@ namespace EventMessageTool {
                 openFileDialog.InitialDirectory = defaults.Path;
 
                 //Format output
-                string jsonOut = JsonConvert.SerializeObject(defaults, Formatting.Indented);
+                string jsonOut = JsonConvert.SerializeObject(appDefaults, Formatting.Indented);
                 //Write output file
                 File.WriteAllText(appLocation + "EventMsgDefaults.json", jsonOut);
 
                 //Print location of JSON file
                 EventMessage($"File {"EventMsgDefaults.json"} exported to {appLocation}");
             } else {
+                //Read in JSON file contents
                 var jsonIn = File.ReadAllText(appFileLoc);
+                //Deserialize JSON file
                 var defaultsIn = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonIn);
-                if (defaultsIn.ContainsKey("Module")) {
+                if (defaultsIn.ContainsKey(DEFAULTS.MODULE)) {
                     defaultsIn.TryGetValue("Module", out string value);
                     tbModule.Text = value;
                 }
-                if (defaultsIn.ContainsKey("DbName")) {
+                if (defaultsIn.ContainsKey(DEFAULTS.DBNAME)) {
                     defaultsIn.TryGetValue("DbName", out string value);
                     tbDBName.Text = value;
                 }
-                if (defaultsIn.ContainsKey("IP")) {
+                if (defaultsIn.ContainsKey(DEFAULTS.IP)) {
                     defaultsIn.TryGetValue("IP", out string value);
                     tbIPAddress.Text = value;
                 }
-                if (defaultsIn.ContainsKey("Tag")) {
+                if (defaultsIn.ContainsKey(DEFAULTS.TAG)) {
                     defaultsIn.TryGetValue("Tag", out string value);
                     tbBaseTag.Text = value;
                 }
-                if (defaultsIn.ContainsKey("Path")) {
+                if (defaultsIn.ContainsKey(DEFAULTS.PATH)) {
                     defaultsIn.TryGetValue("Path", out string value);
                     openFileDialog.InitialDirectory = value;
                 }
@@ -133,14 +149,9 @@ namespace EventMessageTool {
         }
 
         private void Form1_Load(object sender, System.EventArgs e) {
-            SetAppDefaults();
             //AllocConsole(); //Display console for debug
             //Initialize defaults on form object load
-            //tbDBName.Text = "MyProject_db";
-            //tbModule.Text = "1000";
-            //tbBaseTag.Text = "gMod2010_uaEventDetails";//Base tag
-            //tbIPAddress.Text = "172.30.110.41";//Default IP Address
-            //openFileDialog.InitialDirectory = "C:\\user\\%USERPROFILE%\\documents";//Default path
+            SetAppDefaults();
         }
 
         private void btnFileSel_Click(object sender, EventArgs e) {
