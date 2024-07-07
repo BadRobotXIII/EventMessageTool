@@ -56,25 +56,22 @@ namespace EventMessageTool {
             string appLocation = AppContext.BaseDirectory;
             string appFileLoc = appLocation + "EventMsgDefaults.json";
             bool defaultFileExists = File.Exists(appFileLoc);
-            AppDefaults defaults = new();
-            var appDefaults = new {//Create defaults wrapper force serialization of object name
-                ApplicationDefaults = defaults
-            };
+            AppDefaults appDefaults = new();
 
             if (defaultFileExists != true) {
                 //Set default values
-                defaults.Module = "1000";
-                defaults.DbName = "MyProject_db";
-                defaults.IP = "172.30.110.41";
-                defaults.Tag = "gMod2010_uaEventDetails";
-                defaults.Path = "C:\\user\\%USERPROFILE%\\documents";
+                appDefaults.Module = "1000";
+                appDefaults.DbName = "MyProject_db";
+                appDefaults.IP = "172.30.110.41";
+                appDefaults.Tag = "gMod2010_uaEventDetails";
+                appDefaults.Path = "C:\\user\\%USERPROFILE%\\documents";
 
                 //Set UI elements to defaults
-                tbModule.Text = defaults.Module;
-                tbDBName.Text = defaults.DbName;
-                tbIPAddress.Text = defaults.IP;
-                tbBaseTag.Text = defaults.Tag;
-                openFileDialog.InitialDirectory = defaults.Path;
+                tbModule.Text = appDefaults.Module;
+                tbDBName.Text = appDefaults.DbName;
+                tbIPAddress.Text = appDefaults.IP;
+                tbBaseTag.Text = appDefaults.Tag;
+                openFileDialog.InitialDirectory = appDefaults.Path;
 
                 //Format output
                 string jsonOut = JsonConvert.SerializeObject(appDefaults, Formatting.Indented);
@@ -89,23 +86,23 @@ namespace EventMessageTool {
                 //Deserialize JSON file
                 var defaultsIn = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonIn);
                 if (defaultsIn.ContainsKey(DEFAULTS.MODULE)) {
-                    defaultsIn.TryGetValue("Module", out string value);
+                    defaultsIn.TryGetValue(DEFAULTS.MODULE, out string value);
                     tbModule.Text = value;
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.DBNAME)) {
-                    defaultsIn.TryGetValue("DbName", out string value);
+                    defaultsIn.TryGetValue(DEFAULTS.DBNAME, out string value);
                     tbDBName.Text = value;
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.IP)) {
-                    defaultsIn.TryGetValue("IP", out string value);
+                    defaultsIn.TryGetValue(DEFAULTS.IP, out string value);
                     tbIPAddress.Text = value;
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.TAG)) {
-                    defaultsIn.TryGetValue("Tag", out string value);
+                    defaultsIn.TryGetValue(DEFAULTS.TAG, out string value);
                     tbBaseTag.Text = value;
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.PATH)) {
-                    defaultsIn.TryGetValue("Path", out string value);
+                    defaultsIn.TryGetValue(DEFAULTS.PATH, out string value);
                     openFileDialog.InitialDirectory = value;
                 }
             }
