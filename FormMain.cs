@@ -62,8 +62,8 @@ namespace EventMessageTool {
                 //Set default values
                 appDefaults.Module = "1000";
                 appDefaults.DbName = "MyProject_db";
-                appDefaults.IP = "172.30.110.41";
-                appDefaults.Tag = "gMod2010_uaEventDetails";
+                appDefaults.IP = "192.168.1.100";
+                appDefaults.Tag = "gMod1000_uaEventDetails";
                 appDefaults.Path = "C:\\user\\%USERPROFILE%\\documents";
 
                 //Set UI elements to defaults
