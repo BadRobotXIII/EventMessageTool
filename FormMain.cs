@@ -1,8 +1,8 @@
-using Newtonsoft.Json;
-
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+
+using Newtonsoft.Json;
 
 //*************************************************************************************************
 //** Developer: Kameron Zulfic
@@ -56,6 +56,7 @@ namespace EventMessageTool {
             string appLocation = AppContext.BaseDirectory;
             string appFileLoc = appLocation + "EventMsgDefaults.json";
             bool defaultFileExists = File.Exists(appFileLoc);
+            Dictionary<string, string> defaultsIn = new();
             AppDefaults appDefaults = new();
 
             if (defaultFileExists != true) {
@@ -84,26 +85,40 @@ namespace EventMessageTool {
                 //Read in JSON file contents
                 var jsonIn = File.ReadAllText(appFileLoc);
                 //Deserialize JSON file
-                var defaultsIn = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonIn);
+                try {
+                    defaultsIn = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonIn);
+                } catch (Exception err) {
+                    EventMessage($"SetAppDefaults Error: Failed to deserialize JSON file. Deserialization returned status \"{err.Message}\"");
+                }
                 if (defaultsIn.ContainsKey(DEFAULTS.MODULE)) {
                     defaultsIn.TryGetValue(DEFAULTS.MODULE, out string value);
                     tbModule.Text = value;
+                }else{
+                    tbModule.Text = "1000";
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.DBNAME)) {
                     defaultsIn.TryGetValue(DEFAULTS.DBNAME, out string value);
                     tbDBName.Text = value;
+                }else{
+                    tbDBName.Text = "MyProject_db";
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.IP)) {
                     defaultsIn.TryGetValue(DEFAULTS.IP, out string value);
                     tbIPAddress.Text = value;
+                }else{
+                    tbIPAddress.Text = "192.168.1.100";
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.TAG)) {
                     defaultsIn.TryGetValue(DEFAULTS.TAG, out string value);
                     tbBaseTag.Text = value;
+                }else{
+                    tbBaseTag.Text = "gMod1000_uaEventDetails";
                 }
                 if (defaultsIn.ContainsKey(DEFAULTS.PATH)) {
                     defaultsIn.TryGetValue(DEFAULTS.PATH, out string value);
                     openFileDialog.InitialDirectory = value;
+                }else{
+                    openFileDialog.InitialDirectory = "C:\\user\\%USERPROFILE%\\documents";
                 }
             }
         }
