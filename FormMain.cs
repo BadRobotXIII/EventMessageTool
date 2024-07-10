@@ -1,8 +1,11 @@
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 using Newtonsoft.Json;
+
+using static EventMessageTool.FormMain;
 
 //*************************************************************************************************
 //** Developer: Kameron Zulfic
@@ -160,11 +163,31 @@ namespace EventMessageTool {
             }
         }
 
-        private void Form1_Load(object sender, System.EventArgs e) {
+        private void Form1_Load(object sender, EventArgs e) {
             //AllocConsole(); //Display console for debug
             //Initialize defaults on form object load
             SetAppDefaults();
         }
+
+        private void Form1_FormClosing(Object sender, FormClosingEventArgs e){
+            string appLocation = AppContext.BaseDirectory;
+            string appFileLoc = appLocation + "EventMsgDefaults.json";
+            AppDefaults appDefaults = new();
+
+            //defaults to UI elements
+             appDefaults.Module = tbModule.Text;
+             appDefaults.DbName = tbDBName.Text;
+             appDefaults.IP = tbIPAddress.Text;
+             appDefaults.Tag = tbBaseTag.Text;
+             appDefaults.Path = openFileDialog.InitialDirectory;
+
+
+            //Format output
+            string jsonOut = JsonConvert.SerializeObject(appDefaults, Formatting.Indented);
+            //Write output file
+            File.WriteAllText(appLocation + "EventMsgDefaults.json", jsonOut);
+        }
+
 
         private void btnFileSel_Click(object sender, EventArgs e) {
             //Clear dialog text if content remains and not equal to default path

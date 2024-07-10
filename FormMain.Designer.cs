@@ -452,6 +452,7 @@ namespace EventMessageTool {
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Event Message Export Tool";
             Load += Form1_Load;
+            FormClosing += Form1_FormClosing;
             tabPane.ResumeLayout(false);
             tabEvents.ResumeLayout(false);
             tabEvents.PerformLayout();
