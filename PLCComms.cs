@@ -84,11 +84,6 @@ namespace EventMessageTool {
                 //Get tag array size
                 tagLen = TagSize(ip, path, baseTag);
 
-                //Set maximum size if greater than 1250
-                if (tagLen > 1501){
-                    tagLen = 1501;
-                }
-
                 //Iterate through events list create tag handles and write to PLC tags
                 //Parallel processing loop
                 Parallel.For(1, tagLen, new ParallelOptions(), (i, state) => {
