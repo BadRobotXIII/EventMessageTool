@@ -35,9 +35,13 @@ namespace EventMessageTool {
             var ipOctets = ip.Split(".");
             foreach (string octet in ipOctets) {
                 if (octet != null & octet != "" & ipOctets.Length == 4) {
-                    int intOctet = int.Parse(octet);
-                    if (intOctet < 0 || intOctet > 255) {
-                        ip = null; return false;
+                    try {
+                        int intOctet = int.Parse(octet);
+                        if (intOctet < 0 || intOctet > 255) {
+                            ip = null; return false;
+                        }
+                    } catch {
+                        return false;
                     }
                 } else {
                     return false;

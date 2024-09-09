@@ -17,6 +17,12 @@ namespace EventMessageTool {
         public void DatabaseExport(string path, string dataBase, string module, List<Workbook.EventObj> events, FormMain form){
             using (StreamWriter outFile = new StreamWriter(Path.Combine(path, dataBase + ".sql")))
                 for(int i = 0; i < events.Count; i++){
+                    if (i == 0) {
+                        string lineDetailStateZero = "INSERT INTO " + dataBase + "." + "m" + module + "_detail_state_description (`DetailState`,`Description`) VALUES (" + "0" + ",'" + "0 - Detail State Zero" + "')";
+                        string lineDetailStateZeroOnDup = "ON DUPLICATE KEY UPDATE `Description`= '" + "0 - Detail State Zero" + "';";
+                        outFile.WriteLine(lineDetailStateZero);
+                        outFile.WriteLine(lineDetailStateZeroOnDup);
+                    }
                     string lineInsert = "INSERT INTO " + dataBase + "." + "m" + module + "_detail_state_description (`DetailState`,`Description`) VALUES (" + events[i].ID + ",'" + events[i].Message1 + "')";
                     string lineOnDup = "ON DUPLICATE KEY UPDATE `Description`= '" + events[i].Message1 + "';";
                     outFile.WriteLine(lineInsert);
