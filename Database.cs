@@ -18,8 +18,8 @@ namespace EventMessageTool {
             using (StreamWriter outFile = new StreamWriter(Path.Combine(path, dataBase + ".sql")))
                 for(int i = 0; i < events.Count; i++){
                     if (i == 0) {
-                        string lineDetailStateZero = "INSERT INTO " + dataBase + "." + "m" + module + "_detail_state_description (`DetailState`,`Description`) VALUES (" + "0" + ",'" + "0 - Detail State Zero" + "')";
-                        string lineDetailStateZeroOnDup = "ON DUPLICATE KEY UPDATE `Description`= '" + "0 - Detail State Zero" + "';";
+                        string lineDetailStateZero = "INSERT INTO " + dataBase + "." + "m" + module + "_detail_state_description (`DetailState`,`Description`) VALUES (" + "0" + ",'" + "" + "')";
+                        string lineDetailStateZeroOnDup = "ON DUPLICATE KEY UPDATE `Description`= '" + "" + "';";
                         outFile.WriteLine(lineDetailStateZero);
                         outFile.WriteLine(lineDetailStateZeroOnDup);
                     }
